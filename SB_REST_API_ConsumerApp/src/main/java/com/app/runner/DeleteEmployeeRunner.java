@@ -1,0 +1,50 @@
+package com.app.runner;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+//@Component
+public class DeleteEmployeeRunner implements CommandLineRunner {
+
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(DeleteEmployeeRunner.class);
+
+	
+	@Override
+	public void run(String... args) throws Exception {
+
+
+		//url
+		String url="http://localhost:9999/emp/delete/{id}";
+		
+		//header
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		
+		//data
+		//String jsonData="{}";
+				
+		//entity
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		
+		//send
+		ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class,111);
+
+		//print
+		System.out.println("DELETED !!!");
+		System.out.println(responseEntity.getBody());
+	}
+
+}
